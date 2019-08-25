@@ -1,0 +1,62 @@
+-- the start!
+
+-- Create strong entities first
+
+create table teacher(
+empid varchar(5) not null,
+first varchar(20),
+last varchar(20),
+dob date,
+phone char(12),
+primary key (empid) -- makes a primary key on this attribute
+);
+
+create table student_group(
+groupcode varchar(6) no null,
+semster int(2),
+year int(4),
+primary key (groupcode) -- makes a prmiary key o this attribute
+);
+
+create table locker(
+lockerid varchar(6) not null,
+keynumber char(5),
+location varchar(20),
+primary key (lockerid) -- makes primary key on this attribute
+);
+
+-- create weak entities One foriegn key
+create table course(
+coursecode varchar(6) not null
+description varchar(50),
+hours int(3),
+empid varchar(5), --we have seen this before - in the teacher table!!!
+primary key fk_teacher (empid) references teacher (empid) -- connect this to teacher table
+);
+
+-- create weak entities Two foriegn kes
+create table student(
+studentid varchar(5) not null,
+first varchar(20),
+last varchar(20),
+dob date,
+phone char(12),
+gender enum('f', 'm', 'n'),
+groupcode varchar(6), -- we have seen this before - in the student_group table!!!
+lockerid varchar(6), -- we have seen this before - in the locker table!!!
+primary key (studentid), -- makes a primary key on this attribute
+foreign key fk_groupcode (groupcode) references student_group (groupcode), -- connect this to groupcode table
+foreign key fk_lockerid (lockerid) references locker (lockerid) -- connect this to locker table
+);
+
+create table enrolment(
+enorlment int auto_increment, -- this will add a new number - no need to enter here
+studentid varchar(5), -- we have seen this before - in the student table!!!!
+coursecode varchar(6), -- we have seen this before - in the course table!!!!
+grade int(3),
+primary key (enrolmentnumber), -- make a prmiary key on this attribute
+foreign key fk_student (studentid) references student (studentid) -- connect this to student table
+foreign key fk_course (coursecode) references course (coursecode) -- connect this to coures table
+);
+
+-- the end!!!! yay!
